@@ -20,13 +20,13 @@ func RunDNS() {
 
 func handleClient(conn *net.UDPConn) {
 	data := make([]byte, SIZE_UDP_QUERY)
-	len, addr, err := conn.ReadFromUDP(data)
+	n, addr, err := conn.ReadFromUDP(data)
 
 	if err != nil {
 		ErrorOutput(err)
 		return
 	}
 	
-	go DNSocks(conn, len, addr, data)
+	go DNSocks(conn, n, addr, data)
 }
 

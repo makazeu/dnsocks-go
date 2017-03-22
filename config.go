@@ -40,6 +40,8 @@ const (
 	SIZE_TCP_REPLY = 4096
 
 	SEC_TIMEOUT = 10 * time.Second
+	
+	DEBUG_MODE = true
 )
 
 func checkConfig() {

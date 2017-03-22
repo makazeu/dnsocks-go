@@ -1,21 +1,25 @@
 package main
 
 import(
-	"fmt"
+	_"fmt"
 	"net"
-	_"time"
-	"encoding/hex"
+	_"encoding/hex"
 )
 
-func DNSocks(conn *net.UDPConn, len int, addr *net.UDPAddr, data []byte){
-	query := UDP2TCP(len, data[0:len])
+func DNSocks(conn *net.UDPConn, length int, addr *net.UDPAddr, data []byte){
+	//fmt.Println(hex.Dump(data[0:length]))
+	domain	:= GetDomainName(length, data[0:length])
+	query 	:= UDP2TCP(length, data[0:length])
+
+	/* Debug Output */
+	if DEBUG_MODE {
+		LogOutput(addr.String() + " -> " + domain)
+	}
 	
 	response := forwardQuery(query)
 
 	/* Reply to client */
-	fmt.Println(hex.Dump(response))
 	sendResponse(conn, addr, response)
-	//time.Sleep(time.Second * 10)
 }
 
 func forwardQuery(data []byte) []byte {
@@ -26,22 +30,23 @@ func forwardQuery(data []byte) []byte {
 	severConn, err := net.DialTimeout("tcp", serverAddr, SEC_TIMEOUT)
 	if err != nil {
 		ErrorOutput(err)
-		return response
+		return response[0:1]
 	}
+	defer severConn.Close()
 
 	_, err = severConn.Write(data)
 	if err != nil {
 		ErrorOutput(err)
-		return response
+		return response[0:1]
 	}
 
-	len, err := severConn.Read(response)
+	n, err := severConn.Read(response)
 	if err != nil {
 		ErrorOutput(err)
-		return response
+		return response[0:1]
 	}
 
-	return response[2:len]
+	return response[2:n]
 }
 
 func sendResponse(conn *net.UDPConn, addr *net.UDPAddr, response []byte) {
