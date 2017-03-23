@@ -5,7 +5,18 @@ import (
 	"net"
 )
 
-const VERSION = "0.2.2"
+const VERSION = "0.3.1"
+
+const (
+	SIZE_UDP_QUERY = 1024
+	SIZE_TCP_REPLY = 4096
+
+	SEC_TIMEOUT = 7 * time.Second
+	
+	DEBUG_MODE = true
+
+	CONFIG_FILENAME = "config.json"
+)
 
 type DNS_Config struct {
 	/* Local DNS */
@@ -48,17 +59,23 @@ func InitConfig() {
 	dnsConfig.proxy_address = "127.0.0.1"
 	dnsConfig.proxy_port = "1080"
 
+	CommonOutput("")
+	CommonOutput("─────I N F O R M A T I O N ─────")
+	ReadConfig()
 	checkConfig()
+	outputConfig()
 }
 
-const (
-	SIZE_UDP_QUERY = 1024
-	SIZE_TCP_REPLY = 4096
-
-	SEC_TIMEOUT = 7 * time.Second
+func outputConfig() {
 	
-	DEBUG_MODE = true
-)
+	if dnsConfig.proxy_enabled {
+		CommonOutput(" SOCKS5 proxy enabled on " + 
+			dnsConfig.proxy_address + ":" + dnsConfig.proxy_port)
+	}
+	CommonOutput(" Remote DNS is " + 
+			dnsConfig.dns_address + ":" + dnsConfig.dns_port)
+	CommonOutput("")
+}
 
 func checkConfig() {
 	// DNS
@@ -67,4 +84,9 @@ func checkConfig() {
 	CheckFatalError(err)
 
 	//Proxy
+	if dnsConfig.proxy_enabled {
+		_, err := net.ResolveTCPAddr("tcp",
+		dnsConfig.dns_address + ":" + dnsConfig.dns_port)
+		CheckFatalError(err)
+	}
 }

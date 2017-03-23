@@ -14,6 +14,7 @@ func RunDNS() {
 	defer serverConn.Close()
 
 	CommonOutput(" DNS started listening at " + serverAddr.String())
+	CommonOutput("─────────────────────")
 	CommonOutput("")
 
 	for {
