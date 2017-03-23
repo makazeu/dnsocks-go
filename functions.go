@@ -5,9 +5,13 @@ import (
 )
 
 func UDP2TCP(length int, data []byte) []byte {
-	tmpStr	:= string('\x00') + string(rune(length)) + string(data)
-	return []byte(tmpStr)
-	//fmt.Println(hex.Dump(tmpByte))
+	return append(
+		[]byte{
+			0,
+			byte(length),
+		},
+		data...
+	)
 }
 
 func GetDomainName(length int, query []byte) string {
@@ -44,4 +48,15 @@ func CheckFatalError(err error) {
 	if err != nil {
 		FatalLogger(err)
 	}
+}
+
+
+func Welcome() {
+	CommonOutput("╔═════════════════╗")
+	CommonOutput("║▁▂▃▄▅▆▇███▇▆▅▄▃▂▁║")
+	CommonOutput("║            DNSocks-Go            ║")
+	CommonOutput("║              v" + VERSION + "              ║")
+	CommonOutput("╠─────────────────╣")
+	CommonOutput("║         © 2017 Makazeu           ║")
+	CommonOutput("╚═════════════════╝")
 }

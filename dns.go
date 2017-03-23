@@ -13,6 +13,9 @@ func RunDNS() {
 	CheckFatalError(err)
 	defer serverConn.Close()
 
+	CommonOutput(" DNS started listening at " + serverAddr.String())
+	CommonOutput("")
+
 	for {
 		handleClient(serverConn)
 	}

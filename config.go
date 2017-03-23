@@ -5,6 +5,8 @@ import (
 	"net"
 )
 
+const VERSION = "0.2.2"
+
 type DNS_Config struct {
 	/* Local DNS */
 	listen_host string
@@ -23,14 +25,28 @@ type DNS_Config struct {
 var dnsConfig DNS_Config
 
 func InitConfig() {
-	dnsConfig.listen_host = "127.0.0.1"
+	dnsConfig.listen_host = "0.0.0.0"
 	dnsConfig.listen_port = "53"
 
 	// resolver2.opendns.com
 	dnsConfig.dns_address = "208.67.220.220"
 	dnsConfig.dns_port = "5353"
-	
+
+	// dns.hinet.net
+	/*
+	dnsConfig.dns_address = "168.95.1.1"
+	dnsConfig.dns_port = "53"
+	*/
+
+	//dns.hutchcity.com
+	/*
+	dnsConfig.dns_address = "202.45.84.58"
+	dnsConfig.dns_port = "53"
+	*/
+
 	dnsConfig.proxy_enabled = false
+	dnsConfig.proxy_address = "127.0.0.1"
+	dnsConfig.proxy_port = "1080"
 
 	checkConfig()
 }
@@ -39,7 +55,7 @@ const (
 	SIZE_UDP_QUERY = 1024
 	SIZE_TCP_REPLY = 4096
 
-	SEC_TIMEOUT = 10 * time.Second
+	SEC_TIMEOUT = 7 * time.Second
 	
 	DEBUG_MODE = true
 )

@@ -7,15 +7,20 @@ import (
 )
 
 var (
+	comLogger		*log.Logger
 	infoLogger		*log.Logger
 	warningLogger	*log.Logger
 	//errorLogger		*log.Logger
 )
 
 func initLogger(
+	comHandler		io.Writer,
 	infoHandler		io.Writer,
 	warningHandler	io.Writer) {
 	
+	comLogger = log.New(comHandler,
+		"", 0)
+
 	infoLogger = log.New(infoHandler,
 		"[INFO] ",
 		log.Ldate | log.Ltime)
@@ -31,6 +36,10 @@ func FatalLogger(err error) {
 	log.Fatal(err)
 }
 
+func CommonOutput(text string) {
+	comLogger.Println(text)
+}
+
 func ErrorOutput(err error) {
 	warningLogger.Println(err)
 }
@@ -40,5 +49,8 @@ func LogOutput(log string) {
 }
 
 func InitLogger() {
-	initLogger(os.Stdout, os.Stdout)
+	initLogger(
+		os.Stdout,	// Common Logger
+		os.Stdout,  // Debug Logger
+		os.Stdout)	// Error Logger
 }

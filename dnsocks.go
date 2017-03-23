@@ -1,9 +1,9 @@
 package main
 
 func main() {
-	/* Logger initialization */
+	/* Initialize */
 	InitLogger()
-	/* Config initialization */
+	Welcome()
 	InitConfig()
 
 	/* Start DNS */
