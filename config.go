@@ -13,7 +13,7 @@ const (
 
 	SEC_TIMEOUT = 7 * time.Second
 	
-	DEBUG_MODE = true
+	DEBUG_MODE = false
 
 	CONFIG_FILENAME = "config.json"
 )

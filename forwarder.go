@@ -1,9 +1,7 @@
 package main
 
 import(
-	_"fmt"
 	"net"
-	_"encoding/hex"
 	"time"
 )
 
