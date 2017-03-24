@@ -4,7 +4,7 @@
 
 ## 下载 Downloads
 - 您可以通过``git clone``等途径获取本项目的源代码，然后使用``go build``进行编译
-- 您也可以[下载](https://github.com/zyfworks/dnsocks-go)编译后的二进制文件直接使用，不需要相关编译环境
+- 您也可以直接[下载](https://github.com/zyfworks/dnsocks-go/releases)编译后的二进制文件使用，不需要相关编译环境
 
 ## 配置文件  Configuration
 config.json
